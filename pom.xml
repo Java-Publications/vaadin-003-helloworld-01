@@ -7,43 +7,47 @@
   <groupId>org.rapidpm.vaadin</groupId>
   <artifactId>helloworld</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
 
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <undertow.version>1.4.15.Final</undertow.version>
     <vaadin.version>8.0.6</vaadin.version>
+    <wildfly.version>2017.6.0</wildfly.version>
+    <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
   </properties>
 
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.wildfly.swarm</groupId>
+        <artifactId>bom-all</artifactId>
+        <version>${wildfly.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
-
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-bom</artifactId>
-      <version>${vaadin.version}</version>
-      <scope>import</scope>
-    </dependency>
-
     <!--API´s-->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <version>${javax.servlet-api.version}</version>
       <scope>provided</scope>
     </dependency>
-
-    <!--Infrastructure-->
     <dependency>
-      <groupId>io.undertow</groupId>
-      <artifactId>undertow-core</artifactId>
-      <version>${undertow.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.undertow</groupId>
-      <artifactId>undertow-servlet</artifactId>
-      <version>${undertow.version}</version>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>undertow</artifactId>
     </dependency>
     <!--Vaadin -->
     <dependency>
@@ -99,96 +103,51 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-
       <plugin>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-maven-plugin</artifactId>
-        <version>${vaadin.version}</version>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.1.0</version>
         <configuration>
-          <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-          <webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>
-          <draftCompile>false</draftCompile>
-          <compileReport>false</compileReport>
-          <style>OBF</style>
-          <strict>true</strict>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>update-theme</goal>
-              <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
-              <goal>compile-theme</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-
-
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <groupId>org.wildfly.swarm</groupId>
+        <artifactId>wildfly-swarm-plugin</artifactId>
+        <version>${wildfly.version}</version>
         <executions>
           <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <dependencyReducedPomLocation>
-                ${project.build.directory}/reduced-pom.xml
-              </dependencyReducedPomLocation>
-              <transformers>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>org.rapidpm.vaadin.helloworld.server.Main</mainClass>
-                </transformer>
-              </transformers>
-              <minimizeJar>false</minimizeJar>
-              <promoteTransitiveDependencies>true
-              </promoteTransitiveDependencies>
-              <createSourcesJar>false</createSourcesJar>
-              <shadeSourcesContent>false</shadeSourcesContent>
-              <filters>
-                <filter>
-                  <artifact>org.bouncycastle:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-                </filter>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <!--<exclude>com/google/**</exclude>-->
-                    <exclude>VAADIN/themes/runo/**</exclude>
-                    <exclude>VAADIN/themes/reindeer/**</exclude>
-                    <exclude>VAADIN/themes/chameleon/**</exclude>
-                    <exclude>VAADIN/themes/liferay/**</exclude>
-                    <exclude>img/**</exclude>
-                    <exclude>css/**</exclude>
-                    <exclude>**/*.java</exclude>
-                    <exclude>**/*.scss</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <artifactSet>
-                <excludes>
-                  <exclude>junit:junit</exclude>
-                  <exclude>jmock:*</exclude>
-                  <exclude>org.openjdk.jmh:*</exclude>
-                  <exclude>*:xml-apis</exclude>
-                  <exclude>org.apache.maven:lib:tests
-                  </exclude>
-                  <exclude>log4j:log4j:jar:</exclude>
-                </excludes>
-              </artifactSet>
-            </configuration>
+            <id>package</id>
+          </execution>
+          <execution>
+            <id>start</id>
+          </execution>
+          <execution>
+            <id>stop</id>
           </execution>
         </executions>
       </plugin>
+      <!--<plugin>-->
+      <!--<groupId>com.vaadin</groupId>-->
+      <!--<artifactId>vaadin-maven-plugin</artifactId>-->
+      <!--<version>${vaadin.version}</version>-->
+      <!--<configuration>-->
+      <!--<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>-->
+      <!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
+      <!--<draftCompile>false</draftCompile>-->
+      <!--<compileReport>false</compileReport>-->
+      <!--<style>OBF</style>-->
+      <!--<strict>true</strict>-->
+      <!--</configuration>-->
+      <!--<executions>-->
+      <!--<execution>-->
+      <!--<goals>-->
+      <!--<goal>update-theme</goal>-->
+      <!--&lt;!&ndash; Comment out compile-theme goal to use on-the-fly theme compilation &ndash;&gt;-->
+      <!--<goal>compile-theme</goal>-->
+      <!--</goals>-->
+      <!--</execution>-->
+      <!--</executions>-->
+      <!--</plugin>-->
     </plugins>
   </build>
 
