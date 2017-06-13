@@ -13,11 +13,11 @@ public class MyUI extends UI {
   @Override
   protected void init(VaadinRequest request) {
     final VerticalLayout layout = new VerticalLayout();
-    final Button button = new Button("klick me");
+    final Button button = new Button("click me");
     layout.addComponents(button);
 
     button.addClickListener((Button.ClickListener) event -> {
-      Label label = new Label("was klicked");
+      Label label = new Label("clicked again");
       layout.addComponents(label);
     });
 

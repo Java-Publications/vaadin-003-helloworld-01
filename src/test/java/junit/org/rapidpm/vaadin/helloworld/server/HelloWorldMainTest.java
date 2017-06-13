@@ -3,7 +3,6 @@ package junit.org.rapidpm.vaadin.helloworld.server;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.wildfly.swarm.Swarm;
 import okhttp3.OkHttpClient;
