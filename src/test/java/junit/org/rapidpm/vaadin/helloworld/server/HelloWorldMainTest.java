@@ -42,9 +42,5 @@ public class HelloWorldMainTest {
     Assert.assertNotNull(body);
     System.out.println("body = " + body);
     Assert.assertEquals("Hello World", body.string());
-
-
   }
-
-
 }

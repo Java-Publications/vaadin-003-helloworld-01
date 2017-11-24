@@ -12,9 +12,12 @@
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <vaadin.version>8.0.6</vaadin.version>
-    <wildfly.version>2017.6.0</wildfly.version>
-    <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <vaadin.version>8.1.6</vaadin.version>
+    <wildfly.version>2017.11.0</wildfly.version>
+    <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
   </properties>
 
 
@@ -75,7 +78,7 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-      <version>3.8.0</version>
+      <version>3.9.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -87,7 +90,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
@@ -108,29 +111,20 @@
           </execution>
         </executions>
       </plugin>
-      <!--<plugin>-->
-      <!--<groupId>com.vaadin</groupId>-->
-      <!--<artifactId>vaadin-maven-plugin</artifactId>-->
-      <!--<version>${vaadin.version}</version>-->
-      <!--<configuration>-->
-      <!--<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>-->
-      <!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
-      <!--<draftCompile>false</draftCompile>-->
-      <!--<compileReport>false</compileReport>-->
-      <!--<style>OBF</style>-->
-      <!--<strict>true</strict>-->
-      <!--</configuration>-->
-      <!--<executions>-->
-      <!--<execution>-->
-      <!--<goals>-->
-      <!--<goal>update-theme</goal>-->
-      <!--&lt;!&ndash; Comment out compile-theme goal to use on-the-fly theme compilation &ndash;&gt;-->
-      <!--<goal>compile-theme</goal>-->
-      <!--</goals>-->
-      <!--</execution>-->
-      <!--</executions>-->
-      <!--</plugin>-->
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>

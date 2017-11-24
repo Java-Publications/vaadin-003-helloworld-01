@@ -10,7 +10,6 @@ first examples of your Vaadin UI.
 
 
 ## How to start
-
 Let´s check the source code. First we need a Servlet. The basic Servlet in 
 our case is the VaadinServlet. The only information that we are adding 
 here is the connection to the class that is holding the UI elements.
@@ -35,7 +34,7 @@ public class MyUI extends UI {
 ```
 
 To play with this you only have to start the main - method from the class  ```org.wildfly.swarm.Swarm``` and 
-go with your browser to the address: [http://localhost:8080`vaadin/](http://localhost:8080/vaadin)
+go with your browser to the address: [http://localhost:8080/](http://localhost:8080/)
 
 Ok, you got your first Vaadin "Hello World".
 
