@@ -17,8 +17,7 @@ If you want to read more about it you can find the german article here : [http:/
 The screencast in german for this repo is available on youtube, too 
 [http://bit.ly/youtube-001](http://bit.ly/youtube-001) 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5UDyR-zhv0Y?rel=0" frameborder="0" allowfullscreen></iframe>
-
+[![Watch the video](https://img.youtube.com/vi/5UDyR-zhv0Y/0.jpg)](https://www.youtube.com/embed/5UDyR-zhv0Y?rel=0 "Watch the video")
 
 ## How to start
 To play with this you only have to start the main - method from the class  ```org.wildfly.swarm.Swarm``` and 
